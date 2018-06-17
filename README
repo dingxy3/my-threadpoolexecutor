@@ -1,1 +1,11 @@
-git
+
+
+RejectedExecutionHandler提供了四种方式来处理任务拒绝策略
+
+1、直接丢弃（DiscardPolicy）
+
+2、丢弃队列中最老的任务(DiscardOldestPolicy)。
+
+3、抛异常(AbortPolicy)
+
+4、将任务分给调用线程来执行(CallerRunsPolicy)。
