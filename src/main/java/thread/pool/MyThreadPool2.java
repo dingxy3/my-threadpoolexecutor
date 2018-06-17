@@ -20,21 +20,22 @@ public class MyThreadPool2 {
             @Override
             public Thread newThread(Runnable r) {
                 Thread t = new Thread(r);
-                t.setName("线程name"+THREAD_COUNT.getAndIncrement());
+                t.setName("线程 name"+THREAD_COUNT.getAndIncrement());
                 return t ;
             }
         });
 
-        pool.setRejectedExecutionHandler(new ThreadPoolExecutor.AbortPolicy());
-
-        pool.submit(new Runnable() {
-            int index = 0;
-            @Override
-            public void run() {
-                System.out.println((Thread.currentThread().getName()+"begin run task "+index));
-            }
-        });
-        pool.shutdown();
+        pool.setRejectedExecutionHandler(new ThreadPoolExecutor.DiscardPolicy());
+        for (int i = 0 ;i<5 ;i++) {
+            final int index = i;
+            pool.submit(new Runnable() {
+                @Override
+                public void run() {
+                    System.out.println((Thread.currentThread().getName() + "begin run task " + index));
+                }
+            });
+        }
+            pool.shutdown();
 
 
     }

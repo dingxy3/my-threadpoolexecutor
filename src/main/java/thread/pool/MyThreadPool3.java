@@ -18,14 +18,16 @@ public class MyThreadPool3 {
         ThreadPoolExecutor pool = new ThreadPoolExecutor(corePoolSize, maxPoolSize, 0, TimeUnit.SECONDS, queue,new ThreadPoolExecutor.DiscardPolicy());
 
         pool.setRejectedExecutionHandler(new ThreadPoolExecutor.AbortPolicy());
+        for (int i = 0 ;i<5 ;i++) {
+            final  int index = i;
+            pool.submit(new Runnable() {
 
-        pool.submit(new Runnable() {
-            int index = 0;
-            @Override
-            public void run() {
-                System.out.println((Thread.currentThread().getName()+"begin run task "+index));
-            }
-        });
+                @Override
+                public void run() {
+                    System.out.println((Thread.currentThread().getName() + "begin run task " + index));
+                }
+            });
+        }
         pool.shutdown();
 
 

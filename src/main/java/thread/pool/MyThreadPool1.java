@@ -2,10 +2,7 @@ package thread.pool;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.concurrent.ArrayBlockingQueue;
-import java.util.concurrent.BlockingQueue;
-import java.util.concurrent.ThreadPoolExecutor;
-import java.util.concurrent.TimeUnit;
+import java.util.concurrent.*;
 
 /**
  * @param
@@ -21,18 +18,32 @@ public class MyThreadPool1 {
         BlockingQueue<Runnable> queue = new ArrayBlockingQueue<Runnable>(1);
         ThreadPoolExecutor pool = new ThreadPoolExecutor(corePoolSize,maxPoolSize,0, TimeUnit.SECONDS,queue);
 
-        pool.setRejectedExecutionHandler(new ThreadPoolExecutor.AbortPolicy());
+        pool.setRejectedExecutionHandler(new ThreadPoolExecutor.DiscardOldestPolicy());
 
-        pool.submit(new Runnable() {
-          int index = 0;
-            @Override
-            public void run() {
-                System.out.println((Thread.currentThread().getName()+"begin run task "+index));
-            }
-        });
+        for (int i = 0 ; i<5 ;i++){
+            FutureTask<Integer> future  = new FutureTask(new FutureThread(i));
+            pool.submit(future);
+        }
+
         pool.shutdown();
 
 
     }
 
+   static   class FutureThread implements Callable{
+
+       private  int index  ;
+
+       FutureThread(int index){
+           this.index = index;
+       }
+
+        @Override
+        public Object call() throws Exception {
+
+             System.out.println((Thread.currentThread().getName()+"begin run task "+index));
+
+            return index;
+        }
+    }
 }
