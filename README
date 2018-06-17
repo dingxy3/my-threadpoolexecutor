@@ -1,4 +1,6 @@
+MyThreadPool MyThreadPool1 MyThreadPool2 MyThreadPool3实现了线程池的几个构造方法，以及接收FutureTask为参数
 
+内部类等。。
 
 RejectedExecutionHandler提供了四种方式来处理任务拒绝策略
 
